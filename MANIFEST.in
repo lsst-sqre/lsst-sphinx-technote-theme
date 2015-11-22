@@ -1,0 +1,7 @@
+include README.rst
+include LICENSE
+recursive-include lsst_sphinx_technote_theme *.conf
+recursive-include lsst_sphinx_technote_theme *.css
+recursive-include lsst_sphinx_technote_theme *.html
+recursive-include lsst_sphinx_technote_theme *.js
+recursive-include lsst_sphinx_technote_theme *.svg
