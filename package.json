@@ -4,6 +4,7 @@
   "description": "Sphinx HTML5 theme for LSST Technotes",
   "main": "index.js",
   "scripts": {
+    "gulp": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
