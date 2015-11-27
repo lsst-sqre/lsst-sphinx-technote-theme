@@ -24,6 +24,7 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "  html       to make standalone HTML files"
+	@echo "  html5      to make LSST DM HTML5 files"
 	@echo "  epub       to make an epub"
 	@echo "  linkcheck  to check all external links for integrity"
 
@@ -34,6 +35,11 @@ html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+html5:
+	$(SPHINXBUILD) -b html5 $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	@echo
+	@echo "HTML5 Build finished. The HTML5 pages are in $(BUILDDIR)/html."
 
 epub:
 	$(SPHINXBUILD) -b epub $(ALLSPHINXOPTS) $(BUILDDIR)/epub

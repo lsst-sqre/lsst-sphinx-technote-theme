@@ -109,7 +109,8 @@ def _build_confs(metadata):
                        'sphinx.ext.todo',
                        'sphinx.ext.mathjax',
                        'sphinx.ext.ifconfig',
-                       'sphinx-prompt']
+                       'sphinx-prompt',
+                       'documenteer.builder.html5builder']
 
     # The suffix(es) of source filenames.
     # You can specify multiple suffix as a list of string:
