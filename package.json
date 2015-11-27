@@ -1,0 +1,19 @@
+{
+  "name": "lsst-sphinx-technote-theme",
+  "version": "0.2.0",
+  "description": "Sphinx HTML5 theme for LSST Technotes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lsst"
+  ],
+  "author": "Jonathan Sick",
+  "license": "MIT",
+  "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lsst-sqre/lsst-sphinx-technote-theme.git"
+    },
+}
