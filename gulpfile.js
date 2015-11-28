@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var plumber = require('gulp-plumber');
+var notify = require('gulp-notify');
 
 gulp.task('hello', function() {
     console.log('Hello Jonathan!');
@@ -11,11 +12,17 @@ gulp.task('hello', function() {
 
 // gulp-plummer wrapper to handle errors during gulp watch
 // From Zell Liew. “Automate Your Workflow.”
-function customPlumber () {
+function customPlumber (errTitle) {
     return plumber({
         errorHandler: function(err) {
             // Logs error in console
             console.log(err.stack);
+            // gulp-notify doesn't work under tmux, unfortunately
+            // notify.onError({
+            //     // Customizing error title
+            //     title: errTitle || 'Error running Gulp',
+            //     message: 'Error: <%= error.message %>',
+            // });
             // Ends the current pipe, so Gulp watch doesn't break
             this.emit('end');
         }
