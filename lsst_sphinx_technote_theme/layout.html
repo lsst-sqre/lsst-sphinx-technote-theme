@@ -10,6 +10,26 @@
 
 <body>
   <article>
+    <header>
+      <h1>{{ project }}</h1>
+      {% for _author in author_list %}
+        {% if loop.index == loop.length %}
+          <li>{{ _author }}</li>
+        {% elif loop.index == loop.length - 1 %}
+          <li>{{ _author }} and</li>
+        {% else %}
+          <li>{{ _author }},</li>
+        {% endif %}
+      {% endfor %}
+    </header>
+
+    <nav>
+      <header>
+        <h1>Contents</h1>
+      </header>
+      {{ toc }}
+    </nav>
+
     {% block body %}{% endblock %}
   </article>
 </body>
