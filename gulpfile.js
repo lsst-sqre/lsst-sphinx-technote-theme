@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var plumber = require('gulp-plumber');
 var notify = require('gulp-notify');
+var browserSync = require('browser-sync');
 
 gulp.task('hello', function() {
     console.log('Hello Jonathan!');
@@ -29,17 +30,34 @@ function customPlumber (errTitle) {
     });
 }
 
+
 // gulp sass - build Sass in sass/ directory and install into theme
 gulp.task('sass', function() {
     return gulp.src('sass/**/*.scss')
         .pipe(customPlumber())
         .pipe(sass())
         .pipe(gulp.dest('lsst_sphinx_technote_theme/static/css'))
+        .pipe(browserSync.reload({stream: true}))
 });
+
+
+// gulp browserSync - Starts a BrowserSync sever at the Demo site.
+// BrowserSync - http://www.browsersync.io
+// From: Zell Liew. “Automate Your Workflow.”
+gulp.task('browserSync', function() {
+    browserSync({
+        server: {
+            baseDir: 'demo/_build/html',
+        },
+        browser: 'google chrome',
+        open: false,
+    })
+})
 
 
 // gulp watch - build when files change
 // sass is run automatically when watch is run; even before files are changed
-gulp.task('watch', ['sass'], function() {
+gulp.task('watch', ['browserSync', 'sass'], function() {
     gulp.watch('sass/**/*.scss', ['sass']);
 });
+
