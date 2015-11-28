@@ -7,6 +7,7 @@ var notify = require('gulp-notify');
 var browserSync = require('browser-sync');
 var syncExec = require('sync-exec')
 var del = require('del');
+var runSequence = require('run-sequence');
 
 
 gulp.task('hello', function() {
@@ -75,13 +76,25 @@ gulp.task('sphinx', function(callback) {
 
 
 // gulp watch - build when files change
-// sass is run automatically when watch is run; even before files are changed
-gulp.task('watch', ['browserSync', 'sass', 'sphinx:clean', 'sphinx'], function() {
+gulp.task('watch', function() {
     gulp.watch('sass/**/*.scss', ['sass', 'sphinx:clean', 'sphinx']);
     gulp.watch('lsst_sphinx_technote_theme/*.html', ['sphinx']);
-    gulp.watch("demo/_build/html/**/*").on("change", browserSync.reload);
+    gulp.watch("demo/_build/html/**/*", browserSync.reload);
 });
 
 
-gulp.task('build', ['sass', 'sphinx'], function() {
+gulp.task('build:sphinx', ['sass', 'sphinx'], function() {
+});
+
+
+// default task runs the full pipeline, activates browserSync, then starts
+// the watch task.
+gulp.task('default', function(callback) {
+    runSequence(
+        'sphinx:clean',
+        'sass',
+        'sphinx',
+        ['browserSync', 'watch'],
+        callback
+    );
 });
