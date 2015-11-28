@@ -5,6 +5,9 @@ var sass = require('gulp-sass');
 var plumber = require('gulp-plumber');
 var notify = require('gulp-notify');
 var browserSync = require('browser-sync');
+var syncExec = require('sync-exec')
+var del = require('del');
+
 
 gulp.task('hello', function() {
     console.log('Hello Jonathan!');
@@ -30,14 +33,14 @@ function customPlumber (errTitle) {
     });
 }
 
-
+// BrowserSync - http://www.browsersync.io
 // gulp sass - build Sass in sass/ directory and install into theme
 gulp.task('sass', function() {
     return gulp.src('sass/**/*.scss')
         .pipe(customPlumber())
         .pipe(sass())
         .pipe(gulp.dest('lsst_sphinx_technote_theme/static/css'))
-        .pipe(browserSync.reload({stream: true}))
+        // .pipe(browserSync.reload({stream: true}))
 });
 
 
@@ -55,9 +58,30 @@ gulp.task('browserSync', function() {
 })
 
 
-// gulp watch - build when files change
-// sass is run automatically when watch is run; even before files are changed
-gulp.task('watch', ['browserSync', 'sass'], function() {
-    gulp.watch('sass/**/*.scss', ['sass']);
+// gulp sphinx:clean - Delete the demo Sphinx site build
+gulp.task('sphinx:clean', function(callback) {
+    del(['demo/_build/html'], callback);
 });
 
+
+// gulp sphinx - Build the demo sphinx site
+gulp.task('sphinx', function(callback) {
+    var sphinx = syncExec('sphinx-build -a -E -b html5 demo demo/_build/html');
+    console.log(sphinx.stdout);
+    console.log(sphinx.stderr);
+    callback()  // tell gulp the synchronous task is complete
+    return sphinx
+});
+
+
+// gulp watch - build when files change
+// sass is run automatically when watch is run; even before files are changed
+gulp.task('watch', ['browserSync', 'sass', 'sphinx:clean', 'sphinx'], function() {
+    gulp.watch('sass/**/*.scss', ['sass', 'sphinx:clean', 'sphinx']);
+    gulp.watch('lsst_sphinx_technote_theme/*.html', ['sphinx']);
+    gulp.watch("demo/_build/html/**/*").on("change", browserSync.reload);
+});
+
+
+gulp.task('build', ['sass', 'sphinx'], function() {
+});
